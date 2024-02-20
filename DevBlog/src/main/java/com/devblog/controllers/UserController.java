@@ -33,6 +33,7 @@ public class UserController {
 	@PostMapping("/")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
 		
+		
 		UserDto createdUser = this.userService.createUser(userDto);
 		
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
