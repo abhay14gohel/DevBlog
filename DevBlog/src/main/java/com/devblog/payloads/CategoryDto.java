@@ -2,7 +2,13 @@ package com.devblog.payloads;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class CategoryDto {
 	
 	private int id;
@@ -14,34 +20,5 @@ public class CategoryDto {
 	private String categoryDescription;
 	
 	
-	public CategoryDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public CategoryDto(int id, String categoryTitle, String categoryDescription) {
-		super();
-		this.id = id;
-		this.categoryTitle = categoryTitle;
-		this.categoryDescription = categoryDescription;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getCategoryTitle() {
-		return categoryTitle;
-	}
-	public void setCategoryTitle(String categoryTitle) {
-		this.categoryTitle = categoryTitle;
-	}
-	public String getCategoryDescription() {
-		return categoryDescription;
-	}
-	public void setCategoryDescription(String categoryDescription) {
-		this.categoryDescription = categoryDescription;
-	}
-	
-	
+		
 }

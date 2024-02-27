@@ -1,13 +1,26 @@
 package com.devblog.entites;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.annotation.Generated;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "category")
 public class Category {
@@ -23,43 +36,8 @@ public class Category {
 	@Column(name = "description")
 	private String categoryDescription;
 
-
-
-	public Category() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Category(int id, String categoryTitle, String categoryDescription) {
-		super();
-		this.id = id;
-		this.categoryTitle = categoryTitle;
-		this.categoryDescription = categoryDescription;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getCategoryTitle() {
-		return categoryTitle;
-	}
-
-	public void setCategoryTitle(String categoryTitle) {
-		this.categoryTitle = categoryTitle;
-	}
-
-	public String getCategoryDescription() {
-		return categoryDescription;
-	}
-
-	public void setCategoryDescription(String categoryDescription) {
-		this.categoryDescription = categoryDescription;
-	}
+	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+	private List<Post> posts=new ArrayList<>();
 
 	
 }
