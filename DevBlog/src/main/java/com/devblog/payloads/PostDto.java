@@ -37,6 +37,8 @@ public class PostDto {
 	@NotEmpty(message = "Please Upload Image.")
 	private String imageName;
 	
+	private Date addedDate;
+	
 	private UserDto user;
 	
 	private CategoryDto category;
