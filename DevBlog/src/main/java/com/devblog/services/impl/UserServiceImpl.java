@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 
 	public UserDto updateUser(UserDto userDto, Integer id) {
-	   
+		
 	    User userToUpdate = this.modelMapper.map(userDto, User.class);
 
 	  
@@ -49,7 +49,9 @@ public class UserServiceImpl implements UserService {
 	   
 	    existingUser.setName(userToUpdate.getName());
 	    existingUser.setEmail(userToUpdate.getEmail()); 
-	  
+	    existingUser.setAbout(userToUpdate.getAbout());
+	    existingUser.setImgUrl(userToUpdate.getImgUrl());
+	    
 	    existingUser.setId(id);
 
 	    

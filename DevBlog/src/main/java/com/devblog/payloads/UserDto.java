@@ -27,5 +27,7 @@ public class UserDto {
 	private String password;
 	@NotEmpty(message = "About can not be Empty.")
 	private String about;
+	@NotEmpty(message = "Please select Profile photo.")
+	private String imgUrl;
 
 }
