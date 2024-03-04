@@ -47,13 +47,13 @@ public class PostController {
 			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
 
 		return new ResponseEntity<PostResponse>(this.postService.getAllPost(pageNumber, pageSize, sortBy, sortDir),
-				HttpStatus.FOUND);
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/{postId}")
 	public ResponseEntity<PostDto> getPostById(@PathVariable Integer postId) {
 
-		return new ResponseEntity<PostDto>(this.postService.getPostById(postId), HttpStatus.FOUND);
+		return new ResponseEntity<PostDto>(this.postService.getPostById(postId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{postId}")
@@ -72,7 +72,7 @@ public class PostController {
 
 		return new ResponseEntity<PostResponse>(
 				this.postService.getPostsByCategory(categoryId, pageNumber, pageSize, sortBy, sortDir),
-				HttpStatus.FOUND);
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/user/{userId}")
@@ -83,13 +83,13 @@ public class PostController {
 			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
 
 		return new ResponseEntity<PostResponse>(this.postService.getPostsByUser(userId, pageNumber, pageSize,sortBy,sortDir),
-				HttpStatus.FOUND);
+				HttpStatus.OK);
 	}
 
 	@PutMapping("/{postId}")
 	public ResponseEntity<PostDto> upadtePostById(@RequestBody PostDto postDto, @PathVariable Integer postId) {
 
-		return new ResponseEntity<PostDto>(this.postService.updatePost(postDto, postId), HttpStatus.FOUND);
+		return new ResponseEntity<PostDto>(this.postService.updatePost(postDto, postId), HttpStatus.OK);
 	}
 
 	@GetMapping("/search/{keyWord}")
@@ -98,6 +98,6 @@ public class PostController {
 		List<PostDto> posts=this.postService.searchPost(keyWord);
 		
 		
-		return new ResponseEntity<List<PostDto>>(posts,HttpStatus.FOUND);
+		return new ResponseEntity<List<PostDto>>(posts,HttpStatus.OK);
 	}
 }
