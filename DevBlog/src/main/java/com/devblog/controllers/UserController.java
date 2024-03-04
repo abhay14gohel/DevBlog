@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devblog.payloads.ApiResponse;
 import com.devblog.payloads.UserDto;
+import com.devblog.payloads.UserLogin;
 import com.devblog.services.UserService;
 
 import jakarta.validation.Valid;
@@ -29,6 +30,16 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+//	verify user
+	
+	@PostMapping("/login")
+	public ResponseEntity<UserDto>verifyUser(@Valid @RequestBody UserLogin user){
+		
+		
+		
+		return new ResponseEntity<UserDto>(this.userService.verifyUser(user),HttpStatus.ACCEPTED);
+	}
+	
 //	create user
 	@PostMapping("/")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {

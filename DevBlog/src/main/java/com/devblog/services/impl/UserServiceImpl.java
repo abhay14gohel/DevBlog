@@ -1,6 +1,7 @@
 package com.devblog.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -8,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.devblog.entites.User;
+import com.devblog.exception.InvalidDetailsException;
 import com.devblog.exception.ResourceNotFoundException;
+import com.devblog.exception.UserNotFoundException;
 import com.devblog.payloads.UserDto;
+import com.devblog.payloads.UserLogin;
 import com.devblog.repositories.UserRepo;
 import com.devblog.services.UserService;
 
@@ -25,9 +29,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		// TODO Auto-generated method stub
-		
+
 		User user = this.modelMapper.map(userDto, User.class);
-		
 
 		User createdUser = this.userRepo.save(user);
 
@@ -39,30 +42,26 @@ public class UserServiceImpl implements UserService {
 	@Override
 
 	public UserDto updateUser(UserDto userDto, Integer id) {
-		
-	    User userToUpdate = this.modelMapper.map(userDto, User.class);
 
-	  
-	    User existingUser = this.userRepo.findById(id)
-	            .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+		User userToUpdate = this.modelMapper.map(userDto, User.class);
 
-	   
-	    existingUser.setName(userToUpdate.getName());
-	    existingUser.setEmail(userToUpdate.getEmail()); 
-	    existingUser.setAbout(userToUpdate.getAbout());
-	    existingUser.setImgUrl(userToUpdate.getImgUrl());
-	    
-	    existingUser.setId(id);
+		User existingUser = this.userRepo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
 
-	    
-	    User updatedUser = this.userRepo.save(existingUser);
+		existingUser.setName(userToUpdate.getName());
+		existingUser.setEmail(userToUpdate.getEmail());
+		existingUser.setAbout(userToUpdate.getAbout());
+		existingUser.setImgUrl(userToUpdate.getImgUrl());
+		existingUser.setPassword(userToUpdate.getPassword());
 
-	   
-	    UserDto updatedUserDto = this.modelMapper.map(updatedUser, UserDto.class);
+		existingUser.setId(id);
 
-	    return updatedUserDto;
+		User updatedUser = this.userRepo.save(existingUser);
+
+		UserDto updatedUserDto = this.modelMapper.map(updatedUser, UserDto.class);
+
+		return updatedUserDto;
 	}
-
 
 	@Override
 	public UserDto getUserById(Integer userId) {
@@ -94,6 +93,22 @@ public class UserServiceImpl implements UserService {
 
 		User user = this.userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
 		this.userRepo.delete(user);
+
+	}
+
+	@Override
+	public UserDto verifyUser(UserLogin userData) {
+		List<User> users = this.userRepo.findByEmail(userData.getEmail());
+
+		Optional<User> optionalUser = users.stream().findFirst();
+
+		User user = optionalUser.orElseThrow(() -> new UserNotFoundException("User", "email", userData.getEmail()));
+
+		if (user.getPassword().equals(userData.getPassword())) {
+			return this.modelMapper.map(user, UserDto.class);
+		} else {
+			throw new InvalidDetailsException();
+		}
 
 	}
 
