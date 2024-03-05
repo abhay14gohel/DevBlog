@@ -22,11 +22,12 @@ public class UserDto {
 	@NotEmpty(message = "Name can not be Empty.")
 	@Size(min=4,message = "Name must be min of 4 characters.")
 	private String name;
+	@NotEmpty(message = "Email can not be Empty.")
+	
 	@Email(message = "Email is invalid.")
 	private String email;
 	@Size(min=3,max=10,message = "Password must be min of 3  and max of 10 characters.")
 	@NotEmpty(message = "Password can not be Empty.")
-
 	private String password;
 	@NotEmpty(message = "About can not be Empty.")
 	private String about;
