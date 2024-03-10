@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Hide scrollbar */
+
+
+/* Show scrollbar only for elements with overflow */
+body::-webkit-scrollbar {
+    display: none;
+}

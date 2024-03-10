@@ -46,7 +46,7 @@ public class Post {
 	@ManyToOne
 	@JoinColumn(name = "categoryId")
 	private Category category;
-//	
-//	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
-//	private List<Comment> comments=new ArrayList<>();
+	
+	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
+	private List<Comment> comments=new ArrayList<>();
 }

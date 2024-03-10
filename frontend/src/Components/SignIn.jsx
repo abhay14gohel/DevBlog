@@ -40,20 +40,20 @@ const SignIn = () => {
         isClosable: true,
         position: "bottom-left",
       });
-      window.location.reload();
+      // window.location.reload();
 
       navigate("/");
 
       setLoading(false);
     } catch (error) {
       setError(error.response.data.message);
-      // toast({
-      //   title: "Login failed.",
-      //   status: "error",
-      //   duration: 4000,
-      //   isClosable: true,
-      //   position: "bottom-left",
-      // });
+      toast({
+        title: "Login failed.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-left",
+      });
       setLoading(false);
     }
   };

@@ -31,7 +31,7 @@ public class PostDto {
 	@Size(min=4,message = "Name must be min of 4 characters.")
 	
 	private String title;
-	@Size(max=100,min = 5 ,message =  "Content  must be min of 4 characters and max of 100 characters.")
+	@Size(max=1000,min = 5 ,message =  "Content  must be min of 5 characters and max of 1000 characters.")
 	
 	private String content;
 	@NotEmpty(message = "Please Upload Image.")

@@ -3,19 +3,35 @@ import "./App.css";
 import { Navbar } from "./Components/Navbar";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Posts from "./Components/Posts";
-import { MyPosts } from "./Components/MyPosts";
+import MyPosts from "./Components/MyPosts";
 import { CreatePost } from "./Components/CreatePost";
 import Error from "./Components/Error";
 import { SignUp } from "./Components/SignUp";
 import SignIn from "./Components/SignIn";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "./State/User/userAction";
 import { initFlowbite } from "flowbite";
 
 function App() {
-   useEffect(() => {
-     initFlowbite();
-   }, []);
+  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.user);
+  useEffect(() => {
+    initFlowbite();
+  }, []);
+  useEffect(() => {
+    if (!data) {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+      if (userInfo) {
+        dispatch(fetchUser(userInfo));
+      } else {
+      }
+    } else {
+      // window.location.reload();
+    }
+  }, [data]);
+
   return (
     <div className=" min-h-screen ">
       <BrowserRouter>

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
 		User createdUser = this.userRepo.save(user);
 
-		UserDto createdUserDto = this.modelMapper.map(createdUser, UserDto.class);
+		UserDto createdUserDto = convertToDto(createdUser);
 
 		return createdUserDto;
 	}
@@ -58,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
 		User updatedUser = this.userRepo.save(existingUser);
 
-		UserDto updatedUserDto = this.modelMapper.map(updatedUser, UserDto.class);
+		UserDto updatedUserDto = convertToDto(updatedUser);
 
 		return updatedUserDto;
 	}
@@ -70,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		User findUser = this.userRepo.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-		UserDto foundUser = this.modelMapper.map(findUser, UserDto.class);
+		UserDto foundUser =convertToDto(findUser);
 
 		return foundUser;
 	}
@@ -81,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
 		List<User> users = this.userRepo.findAll();
 
-		List<UserDto> usersDtos = users.stream().map(user -> this.modelMapper.map(user, UserDto.class))
+		List<UserDto> usersDtos = users.stream().map(user ->convertToDto(user))
 				.collect(Collectors.toList());
 
 		return usersDtos;
@@ -105,11 +107,24 @@ public class UserServiceImpl implements UserService {
 		User user = optionalUser.orElseThrow(() -> new UserNotFoundException("User", "email", userData.getEmail()));
 
 		if (user.getPassword().equals(userData.getPassword())) {
-			return this.modelMapper.map(user, UserDto.class);
+			
+			 modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+		        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		        modelMapper.typeMap(User.class, UserDto.class).addMappings(mapper -> mapper.skip(UserDto::setPassword));
+			
+			return convertToDto(user) ;
 		} else {
 			throw new InvalidDetailsException();
 		}
 
 	}
+	
+	private UserDto convertToDto(User user) {
+        // Exclude password field from mapping
+        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        modelMapper.typeMap(User.class, UserDto.class).addMappings(mapper -> mapper.skip(UserDto::setPassword));
+        return modelMapper.map(user, UserDto.class);
+    }
 
 }
