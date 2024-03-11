@@ -19,6 +19,7 @@ import { MdDelete, MdModeEditOutline } from "react-icons/md";
 import { useNavigate } from "react-router";
 import { fetchUser } from "../State/User/userAction";
 import LandingPage from "./LandingPage";
+import { Link, NavLink } from "react-router-dom";
 
 const MyPosts = () => {
   const navigate = useNavigate();
@@ -26,11 +27,9 @@ const MyPosts = () => {
   const { data } = useSelector((state) => state.user);
   const [posts, setPosts] = useState(null);
   const toast = useToast();
-const [deleteId, setDeleteId] = useState(0)
-
+  const [deleteId, setDeleteId] = useState(0);
 
   const handleDelete = async (id) => {
-    
     try {
       const { data } = await axios.delete(`api/api/post/${id}`);
 
@@ -41,7 +40,7 @@ const [deleteId, setDeleteId] = useState(0)
         isClosable: true,
         position: "bottom-left",
       });
-      setDeleteId(id)
+      setDeleteId(id);
     } catch (error) {
       toast({
         title: "Could not delete Post.",
@@ -76,7 +75,7 @@ const [deleteId, setDeleteId] = useState(0)
     if (data) {
       fetchPosts();
     }
-  }, [data,deleteId]);
+  }, [data, deleteId]);
 
   return (
     <>
@@ -86,57 +85,73 @@ const [deleteId, setDeleteId] = useState(0)
           <div className="mx-10   md:mx-16  mt-2  grid grid-cols-1 md:grid-cols-3 gap-6 p-1 place-items-center ">
             {posts?.content?.map((post) => (
               <>
-                <div className="max-w-sm relative  rounded overflow-hidden shadow-lg  cursor-pointer md:w-[81%] w-full  bg-[#c8cbce]  ">
+                <NavLink
+                  to={`/post/${post.postId}`}
+                  className="max-w-sm relative  rounded overflow-hidden shadow-lg  cursor-pointer md:w-[81%] w-full  bg-[#c8cbce]  "
+                >
                   {" "}
-                  <Popover isLazy>
-                    <PopoverTrigger>
-                      <div
-                        className="absolute bg-[#1B2E35] hover:text-[#1B2E35]  hover:bg-[#007DFE] p-1.5 rounded-[50%] right-2 ease-in-out duration-300 top-2 text-[#007DFE]  cursor-pointer"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // e.preventDefault();
-                        }}
+                  <div
+                    className=""
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    {" "}
+                    <Popover isLazy>
+                      <PopoverTrigger>
+                        <div
+                          className="absolute bg-[#1B2E35] hover:text-[#1B2E35]  hover:bg-[#007DFE] p-1.5 rounded-[50%] right-2 ease-in-out duration-300 top-2 text-[#007DFE]  cursor-pointer"
+                          onClick={(e) => {
+                            // e.stopPropagation();
+                            // e.preventDefault();
+                          }}
+                        >
+                          <SlOptionsVertical />
+                        </div>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        width=""
+                        color="#C8CBCE"
+                        bgColor={"#1B2E35"}
                       >
-                        <SlOptionsVertical />
-                      </div>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      width=""
-                      color="#C8CBCE"
-                      bgColor={"#1B2E35"}
-                    >
-                      <Center>
-                        {" "}
-                        <PopoverBody>
+                        <Center>
                           {" "}
-                          <div className="flex flex-col gap-1 justify-center  text-md">
-                            <Flex
-                              alignItems="center"
-                              gap={2}
-                              className=" hover:text-green-600"
-                            >
-                              <span className="">
-                                <MdModeEditOutline />
-                              </span>
-                            </Flex>
-                            <hr />
-                            <Flex
-                              alignItems="center"
-                              gap={2}
-                              className="hover:text-red-400"
-                              onClick={() => {
-                                handleDelete(post.postId);
-                              }}
-                            >
-                              <span className="">
-                                <MdDelete />
-                              </span>
-                            </Flex>
-                          </div>
-                        </PopoverBody>
-                      </Center>
-                    </PopoverContent>
-                  </Popover>
+                          <PopoverBody>
+                            {" "}
+                            <div className="flex flex-col gap-1 justify-center  text-md">
+                              <Flex
+                                alignItems="center"
+                                gap={2}
+                                className=" hover:text-green-600"
+                              >
+                                <span
+                                  className=""
+                                  onClick={() => {
+                                    navigate("/editpost", { state: post });
+                                  }}
+                                >
+                                  <MdModeEditOutline />
+                                </span>
+                              </Flex>
+                              <hr />
+                              <Flex
+                                alignItems="center"
+                                gap={2}
+                                className="hover:text-red-400"
+                                onClick={() => {
+                                  handleDelete(post.postId);
+                                }}
+                              >
+                                <span className="">
+                                  <MdDelete />
+                                </span>
+                              </Flex>
+                            </div>
+                          </PopoverBody>
+                        </Center>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                   <img
                     className="w-full h-[12rem] object-cover"
                     src={
@@ -158,10 +173,20 @@ const [deleteId, setDeleteId] = useState(0)
                       #{post.category.categoryTitle}
                     </span>
                   </div>
-                </div>
+                </NavLink>
               </>
             ))}
           </div>
+          {posts?.content?.length == 0 && (
+            <div className="">
+              <Center>You do not have any Post.</Center>
+              <Center mt={2}>
+                <NavLink to={"/createpost"}>
+                  <Button colorScheme="blue">Create Post</Button>
+                </NavLink>
+              </Center>
+            </div>
+          )}
         </>
       ) : (
         <>

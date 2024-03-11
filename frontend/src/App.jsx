@@ -11,6 +11,8 @@ import SignIn from "./Components/SignIn";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "./State/User/userAction";
 import { initFlowbite } from "flowbite";
+import Post from "./Components/Post";
+import { EditPost } from "./Components/EditPost";
 
 function App() {
   // const navigate = useNavigate();
@@ -42,11 +44,9 @@ function App() {
           <Route path="/createpost" element={<CreatePost />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/post/:id" element={<Post />} />
+          <Route path="/editpost" element={<EditPost />} />
 
-          {/* <Route path="/students" element={<Studenys />} />
-          <Route path="/student/:id" element={<Student />} />
-
-          <Route path="/teachers" element={<Teachers />} /> */}
           <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>

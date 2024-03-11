@@ -4,6 +4,22 @@ import { fetchUser, fetchUserSuccess } from "../State/User/userAction";
 //  import {logo} from "../Linkssets/devblog_logo.png"
 import { useDispatch, useSelector } from "react-redux";
 import { initFlowbite } from "flowbite";
+import {
+  Popover,
+  Avatar,
+  Button,
+  Center,
+  Flex,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  WrapItem,
+} from "@chakra-ui/react";
+import { SlOptionsVertical } from "react-icons/sl";
+import { MdDelete, MdModeEditOutline } from "react-icons/md";
 
 export const Navbar = () => {
   const { data } = useSelector((state) => state.user);
@@ -29,7 +45,11 @@ export const Navbar = () => {
           to="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <img src="devblog.png" className="h-8 " alt="DevBlog Logo" />
+          <img
+            src="../../public/devblog.png"
+            className="h-8 "
+            alt="DevBlog Logo"
+          />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             <span className="text-[#007DFE] ">Dev</span>
             <span className="text-[#1B2E35] ">Blog</span>
@@ -70,6 +90,68 @@ export const Navbar = () => {
             className={`${open ? " " : " hidden"} w-full md:block md:w-auto`}
           >
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <li>
+                <Popover isLazy>
+                  <PopoverTrigger>
+                    <div className="block cursor-pointer py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                      {" "}
+                      <WrapItem>
+                        <Avatar
+                          size="sm"
+                          name={data?.name}
+                          src={data?.imgUrl}
+                        />{" "}
+                      </WrapItem>
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent width="" color="#007DFB" bgColor={"white"}>
+                    <Center>
+                      {" "}
+                      <PopoverBody cursor={"default"}>
+                        {" "}
+                        <div className="flex flex-col gap-1 justify-center  text-md">
+                          <Flex
+                            alignItems="center"
+                            justifyContent={"center"}
+                            gap={2}
+                          >
+                            <span
+                              className=""
+                              onClick={() => {
+                                // navigate("/editpost", { state: post });
+                              }}
+                            >
+                              {data?.name}
+                            </span>
+                          </Flex>
+                          <hr />
+                          <Flex
+                            alignItems="center"
+                            justifyContent={"center"}
+                            gap={2}
+                            onClick={() => {
+                              // handleDelete(post.postId);
+                            }}
+                          >
+                            <span className="">{data?.email}</span>
+                          </Flex>
+                          <hr />
+                          <Flex
+                            alignItems="center"
+                            gap={2}
+                            justifyContent={"center"}
+                            onClick={() => {
+                              // handleDelete(post.postId);
+                            }}
+                          >
+                            <span className="">{data?.about}</span>
+                          </Flex>
+                        </div>
+                      </PopoverBody>
+                    </Center>
+                  </PopoverContent>
+                </Popover>
+              </li>
               <li>
                 <Link
                   to="createpost"
