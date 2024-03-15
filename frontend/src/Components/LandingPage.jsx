@@ -1,8 +1,9 @@
 import { Button } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   return (
     <div>
       {" "}
@@ -17,9 +18,18 @@ const LandingPage = () => {
               Unlock the gateway to boundless creativity, where words dance,
               ideas soar, and connections flourish.
             </p>
-            <div class="flex justify-center">
+            <div class="flex justify-center gap-5">
               <Button colorScheme="blue">
                 <Link to="/signup">Get Started</Link>
+              </Button>
+
+              <Button
+                onClick={() => {
+                  navigate("/signin");
+                }}
+                colorScheme="gray"
+              >
+                Log In
               </Button>
             </div>
           </div>
