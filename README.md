@@ -35,7 +35,7 @@ DevBlog is a full-stack web application for managing a blog platform. It is buil
 2. **Frontend**:
    - Navigate to the `frontend` directory.
    - Install dependencies using `npm install`.
-   - Start the development server with `npm start`.
+   - Start the development server with `npm run dev`.
 
 ## Folder Structure
 
